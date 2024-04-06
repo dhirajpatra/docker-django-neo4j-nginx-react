@@ -1,0 +1,45 @@
+# version: "3.8"
+
+services:
+  backend:
+    container_name: backend
+    build: ./backend
+    volumes:
+      - ./backend:/app/backend
+    ports:
+      - "8000:8000"
+    stdin_open: true
+    tty: true
+    environment:
+      - DJANGO_SETTINGS_MODULE=hello_world.settings.development
+    command: python3 manage.py runserver 0.0.0.0:8000
+
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+      # One-way volume to use node_modules from inside image
+      - node_modules:/app/node_modules 
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    command: npm start
+
+  nginx:
+    image: nginx:1.25-alpine-slim
+    container_name: nginx
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # Mount nginx.conf from the nginx folder
+      - ./frontend/build:/usr/share/nginx/html
+    ports:
+      - "80:80"
+
+volumes:
+  node_modules:
