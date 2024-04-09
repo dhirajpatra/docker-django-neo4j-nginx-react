@@ -18,9 +18,9 @@ services:
     container_name: frontend
     build: ./frontend
     volumes:
-      - ./frontend:/app
-      # One-way volume to use node_modules from inside image
-      - node_modules:/app/node_modules 
+      - ./frontend:/app  # Mount the frontend code as a volume
+      - frontend_build:/app/build  # Mount frontend build directory as a volume
+      - frontend_node_modules:/app/node_modules  # Mount node_modules directory as a volume
     ports:
       - "3000:3000"
     environment:
@@ -42,4 +42,5 @@ services:
       - "80:80"
 
 volumes:
-  node_modules:
+  frontend_build:
+  frontend_node_modules:

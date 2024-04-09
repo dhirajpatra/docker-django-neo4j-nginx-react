@@ -7,6 +7,7 @@ For more information on this file, see
 https://docs.djangoproject.com/en/2.2/topics/settings/
 
 For the full list of settings and their values, see
+
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
@@ -42,7 +43,7 @@ ROOT_URLCONF = "hello_world.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, 'templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -54,6 +55,7 @@ TEMPLATES = [
         },
     }
 ]
+
 
 WSGI_APPLICATION = "hello_world.wsgi.application"
 
@@ -100,6 +102,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
-
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
